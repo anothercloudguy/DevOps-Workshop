@@ -5,6 +5,7 @@ import os
 
 app = Flask(__name__)
 csv_file = 'visitors.csv'
+version_file = 'version.txt'
 
 # Create CSV file with headers if it doesn't exist
 if not os.path.exists(csv_file):
@@ -29,7 +30,9 @@ def home():
 
 @app.route('/version')
 def version():
-    return {'version': '1.0.0'}
+    with open(version_file, 'r') as file:
+        version = file.read().strip()
+    return {'version': version}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
