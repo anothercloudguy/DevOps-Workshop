@@ -7,6 +7,10 @@ WORKDIR /app
 # Copia los archivos de la aplicación a la imagen
 COPY . /app
 
+# Leer la versión desde version.txt usando una variable de ambiente
+ARG VERSION
+LABEL version=$VERSION
+
 # Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -14,4 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Define el comando por defecto para ejecutar la aplicación
-CMD ["python", "visitor-counter.py"]
+CMD ["python", "app.py"]
