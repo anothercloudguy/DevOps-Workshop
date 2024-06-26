@@ -77,8 +77,32 @@ you will see the usual message from docker rebuilding your container images.
 
 Let's push manually this time our container image, later this will be done by the pipeline.
 
-`docker push spacelysprockets.azurecr.io/visitor-counter:$VERSION
-`
+`docker push spacelysprockets.azurecr.io/visitor-counter:$VERSION`
+
+you might see something like this:
+The push refers to repository [spacelysprockets.azurecr.io/visitor-counter]
+56b357a22bf3: Pushed 
+04d9c25d0ae1: Pushed 
+a679541b09ae: Pushed 
+543693446bda: Pushed 
+50df9224ea2a: Pushed 
+c0a8bf9d6dab: Pushed 
+2d8c3949de61: Pushed 
+1387079e86ad: Pushed 
+0.0.3: digest: sha256:f0c95dc11d9cb3b53359661386d1a4e9e89e06b4536adbc2b46f7b5a80a45e69 size: 1996
+
+
+`az acr repository list --name spacelysprockets --output table`
+
+Result
+---------------
+visitor-counter
+
+`az acr repository show-tags --name spacelysprockets --repository visitor-counter --output table`
+
+Result
+--------
+0.0.3
 
 
 `code`
