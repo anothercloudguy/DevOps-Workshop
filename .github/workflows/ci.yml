@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install -r app/requirements.txt
+
+    - name: Read version from file
+      id: version
+      run: echo "::set-output name=VERSION::$(cat app/version.txt)"
+
+    - name: Build Docker image
+      run: |
+        docker build --build-arg VERSION=${{ steps.version.outputs.VERSION }} -t spacelysprockets.azurecr.io/visitor-counter:${{ steps.version.outputs.VERSION }} -f app/Dockerfile app
+
+    - name: Log in to Azure Container Registry
+      run: |
+        echo ${{ secrets.ACR_PASSWORD }} | docker login spacelysprockets.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+    - name: Push Docker image
+      run: docker push spacelysprockets.azurecr.io/visitor-counter:${{ steps.version.outputs.VERSION }}
