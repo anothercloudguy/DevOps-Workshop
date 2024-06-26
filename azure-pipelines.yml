@@ -28,7 +28,7 @@ stages:
 
     - task: Docker@2
       inputs:
-        containerRegistry: 'myContainerRegistry'
+        containerRegistry: 'spacelysprockets.azurecr.io'
         repository: '$(imageName)'
         command: 'buildAndPush'
         Dockerfile: 'app/Dockerfile'
