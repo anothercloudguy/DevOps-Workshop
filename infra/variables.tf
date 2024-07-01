@@ -73,7 +73,7 @@ variable "agent_vm_size" {
 variable "os_disk_size_gb" {
   description = "Disk size (in GiB) to provision for each of the agent pool nodes."
   type        = number
-  default     = 250
+  default     = 10
 }
 
 variable "enable_auto_scaling" {
