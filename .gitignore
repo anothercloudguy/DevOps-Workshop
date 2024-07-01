@@ -1,0 +1,18 @@
+#Python Virtual Env files
+spacely
+
+# Temporary data file to be replaced with DB
+app/visitors.csv
+
+#DOcumentation files
+docs/pushing_theimage_to_the_registry.md
+
+#Unnecesary terrfom files
+infra/.terraform/*
+infra/.terraform.lock.hcl
+
+# Terraform credentials.
+infra/provider.tf
+
+# Script to send Terraform credentials to Env Vars.
+scripts/secret-envvars.sh

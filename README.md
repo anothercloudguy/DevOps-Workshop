@@ -15,3 +15,7 @@ Local development and initial test will be done with **Docker**
  monitoring implementation isn't decide yet. 
 
 :strong: Let’s get un-rusted together!
+
+Here is how it does looks
+
+![App view](docs/Screenshot1.png)
