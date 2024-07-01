@@ -8,6 +8,25 @@
     location = var.location
   }
 
+  
+resource "azurerm_container_registry" "acr" {
+  name                     = var.acr_name
+  resource_group_name      = azurerm_resource_group.acr_rg.name
+  location                 = azurerm_resource_group.acr_rg.location
+  sku                      = "Premium"
+  admin_enabled            = true
+  
+
+  georeplications {
+    location                = "East US"
+    zone_redundancy_enabled = true
+    tags                    = {}
+  }
+
+  
+  tags = var.tags
+}
+
   resource "azurerm_kubernetes_cluster" "aks" {
     name                = var.cluster_name
     location            = var.location
@@ -21,7 +40,7 @@
   default_node_pool {
       name                = "agentpool"
       node_count          = 2
-      vm_size             = "Standard_D2s_v3"  # Change to a different VM size
+      vm_size             = "Standard_D2as_v4"  # Changing to a different VM size to fix availabability
       os_disk_size_gb     = 128
       max_pods            = 110
       type                = "VirtualMachineScaleSets"
@@ -89,12 +108,4 @@
     scope                = azurerm_container_registry.acr.id
   }
   
-  resource "azurerm_container_registry" "acr" {
-    name                = var.acr_name
-    location            = azurerm_resource_group.acr_rg.location
-    resource_group_name = azurerm_resource_group.acr_rg.name
-    sku                 = "Basic"
-    admin_enabled       = true
-  }
 
-  

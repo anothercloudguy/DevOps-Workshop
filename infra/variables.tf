@@ -1,7 +1,7 @@
 variable "location" {
   description = "The location of the AKS cluster."
   type        = string
-  default     = "eastus"
+  default     = "brazilsouth"
 }
 
 variable "resource_group_name" {
@@ -43,7 +43,7 @@ variable "workspace_name" {
 variable "workspace_region" {
   description = "Specify the region for your OMS workspace."
   type        = string
-  default     = "East US"
+  default     = "brazilsouth"
 }
 
 variable "oms_sku" {
