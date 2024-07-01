@@ -18,17 +18,17 @@
     image_cleaner_enabled               = false
     image_cleaner_interval_hours        = 48
 
-    default_node_pool {
+  default_node_pool {
       name                = "agentpool"
       node_count          = 2
-      vm_size             = "Standard_D2plds_v5"
+      vm_size             = "Standard_D2s_v3"  # Change to a different VM size
       os_disk_size_gb     = 128
       max_pods            = 110
       type                = "VirtualMachineScaleSets"
       min_count           = 2
       max_count           = 5
       enable_auto_scaling = true
-  
+
       upgrade_settings {
         max_surge = "10%"
       }
