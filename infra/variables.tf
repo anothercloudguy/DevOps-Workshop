@@ -129,3 +129,25 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+
+variable "postgresql_server_name" {
+  description = "The name of the PostgreSQL server"
+  type        = string
+  
+}
+
+variable "postgresql_database_name" {
+  description = "The name of the PostgreSQL database"
+  type        = string
+}
+
+variable "postgresql_admin_username" {
+  description = "The admin username for the PostgreSQL server"
+  type        = string
+}
+
+variable "postgresql_admin_password" {
+  description = "The admin password for the PostgreSQL server"
+  type        = string
+}

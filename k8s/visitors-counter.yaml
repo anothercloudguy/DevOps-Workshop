@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: visitor-counter
-        image: spacelysprockets.azurecr.io/visitor-counter:0.0.3 
+        image: spacelysprockets.azurecr.io/visitor-counter:1.0.0
         ports:
-        - containerPort: 80
+        - containerPort: 5000
       imagePullSecrets:
       - name: acr-credentials

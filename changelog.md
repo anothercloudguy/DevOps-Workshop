@@ -1,4 +1,8 @@
 
+# Version 1.0.0
+### Improvements
+- Replacing csv file by DB to store visitors info.
+
 # Version 0.0.3
 ### Improvements
 - Using a text file to store the version.

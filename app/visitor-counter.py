@@ -1,38 +1,50 @@
-from flask import Flask, request, send_from_directory
-from datetime import datetime
-import csv
 import os
+from flask import Flask, render_template, jsonify
+import psycopg2
+from dotenv import load_dotenv
+
+# Cargar las variables de entorno desde el archivo .env
+load_dotenv()
 
 app = Flask(__name__)
-csv_file = 'visitors.csv'
-version_file = 'version.txt'
 
-# Create CSV file with headers if it doesn't exist
-if not os.path.exists(csv_file):
-    with open(csv_file, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['IP', 'Visit Time'])
+def get_db_connection():
+    conn = psycopg2.connect(
+        host=os.getenv("POSTGRES_HOST"),
+        database=os.getenv("POSTGRES_DB"),
+        user=os.getenv("POSTGRES_USER"),
+        password=os.getenv("POSTGRES_PASSWORD")
+    )
+    return conn
 
 @app.route('/')
 def home():
-    visitor_ip = request.remote_addr
-    visit_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT COUNT(*) FROM visitors')
+    count = cur.fetchone()[0]
+    cur.close()
+    conn.close()
+    return render_template('index.html', count=count)
 
-    with open(csv_file, 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([visitor_ip, visit_time])
-
-    with open(csv_file, 'r') as file:
-        reader = csv.reader(file)
-        visit_count = sum(1 for row in reader) - 1  # Exclude header
-
-    return f'<img src="/static/img/SpacelySprocketsInc.png" alt="Spacely Sprockets Inc"><br/><h1>Welcome! You are visitor number {visit_count}.</h1>'
-
+# Used for debugging the db connection
+'''
+@app.route('/data')
+def data():
+    db_data = {
+        "POSTGRES_HOST": os.getenv("POSTGRES_HOST"),
+        "POSTGRES_DB": os.getenv("POSTGRES_DB"),
+        "POSTGRES_USER": os.getenv("POSTGRES_USER"),
+        "POSTGRES_PASSWORD": os.getenv("POSTGRES_PASSWORD")
+    }
+    return jsonify(db_data)
+'''
+    
 @app.route('/version')
 def version():
-    with open(version_file, 'r') as file:
+    with open('version.txt', 'r') as file:
         version = file.read().strip()
-    return {'version': version}
+    return f"Version: {version}"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
