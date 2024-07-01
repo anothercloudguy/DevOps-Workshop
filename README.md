@@ -22,7 +22,7 @@ Here is how it looks.
 
 ![App view](docs/Screenshot1.png)
 
-![Version response](Screenshot2.png)
+![Version response](docs/Screenshot2.png)
 
 
 # Monitoring
