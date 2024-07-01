@@ -13,6 +13,8 @@ infra/.terraform.lock.hcl
 
 # Terraform credentials.
 infra/provider.tf
+infra/db_connect.tfvars
+
 
 # Script to send Terraform credentials to Env Vars.
 scripts/secret-envvars.sh
