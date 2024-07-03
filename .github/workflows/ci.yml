@@ -37,7 +37,15 @@ jobs:
 
     - name: Push Docker image
       run: docker push spacelysprockets.azurecr.io/visitor-counter:${{ steps.version.outputs.VERSION }}
-  
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: AKS Set up
       uses: azure/setup-kubectl@v1
       with:
