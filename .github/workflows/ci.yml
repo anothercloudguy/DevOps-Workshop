@@ -37,3 +37,23 @@ jobs:
 
     - name: Push Docker image
       run: docker push spacelysprockets.azurecr.io/visitor-counter:${{ steps.version.outputs.VERSION }}
+  
+    - name: AKS Set up
+      uses: azure/setup-kubectl@v1
+      with:
+        version: 'latest'
+
+    - name: Authenticate with Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Set up AKS context
+      run: |
+        az aks get-credentials --resource-group ${{ secrets.AKS_RESOURCE_GROUP }} --name ${{ secrets.AKS_CLUSTER_NAME }}
+
+    - name: Apply Kubernetes manifests
+      run: |
+        kubectl apply -f k8s/namespaces.yaml
+        kubectl apply -f k8s/service.yaml
+        kubectl apply -f k8s/visitors-counter.yaml
